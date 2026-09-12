@@ -1,0 +1,51 @@
+/* src/styles/globals.scss */
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+/* Ép container chứa ảnh reset lại flow, giúp loại bỏ margin ẩn dưới cùng */
+img {
+  vertical-align: bottom;
+}
+
+/* --- CLASS TIỆN ÍCH (UTILITIES) BỔ SUNG --- */
+
+/* Hiệu ứng chuyển cảnh mượt mà */
+.transition-all {
+  transition: all 0.25s ease-in-out;
+}
+
+/* Ẩn phần tử mặc định */
+.opacity-0 {
+  opacity: 0;
+}
+
+/* Hiển thị overlay khi hover */
+a:hover .hover-opacity-100,
+.hover-opacity-100:hover {
+  opacity: 1 !important;
+}
+
+/* Hiệu ứng nền xám nhẹ khi hover cho các nút */
+.hover-bg-light {
+  transition: background-color 0.2s ease;
+}
+
+.hover-bg-light:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Ẩn lớp phủ chứa nút bấm mặc định */
+.pin-overlay {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Chỉ hiển thị lớp phủ khi người dùng di chuột vào thẻ pin-card */
+.pin-card:hover .pin-overlay {
+  opacity: 1;
+}

@@ -1,0 +1,85 @@
+// src/styles/masonry.module.scss
+
+.masonryGrid {
+  // Cấu hình số cột theo từng breakpoint (Mobile first)
+  column-count: 2;
+  column-gap: 16px;
+  padding: 16px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    column-count: 3;
+  }
+
+  /* Desktop */
+  @media (min-width: 992px) {
+    column-count: 4;
+  }
+
+  /* Large Desktop */
+  @media (min-width: 1200px) {
+    column-count: 5;
+  }
+}
+
+.masonryItem {
+  // Ngăn chặn việc một thẻ bị bẻ gãy giữa hai cột
+  break-inside: avoid;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  background-color: #f8f9fa; // Màu placeholder khi ảnh chưa load
+  
+  // Hiệu ứng mượt mà khi di chuột
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    
+    .overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+}
+
+/* Lớp phủ đen trong suốt xuất hiện khi hover */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  z-index: 10;
+}
+
+/* Custom class chặn text quá 2 dòng (Bẫy tràn chữ) */
+.textClamp2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* Thêm thuộc tính chuẩn để fix warning */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
