@@ -16,7 +16,7 @@ const TopNavigation: React.FC = () => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('access_token');
-      const userInfoStr = localStorage.getItem('user_info');
+      const userInfoStr = localStorage.getItem('user');
 
       if (token) {
         let parsedUser: any = {};
@@ -63,7 +63,7 @@ const TopNavigation: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
-    localStorage.removeItem('user_info');
+    localStorage.removeItem('user');
     setUser(null);
     setShowUserMenu(false);
     router.push('/');

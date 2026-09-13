@@ -22,7 +22,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    const userInfoStr = localStorage.getItem('user_info');
+    const userInfoStr = localStorage.getItem('user');
 
     if (!token) {
       router.push('/');
@@ -101,7 +101,7 @@ export default function ProfilePage() {
       setUser(updatedUser);
 
       // Cập nhật localStorage để các trang khác (như Navbar) nhận diện được
-      const userInfoStr = localStorage.getItem('user_info');
+      const userInfoStr = localStorage.getItem('user');
       if (userInfoStr) {
         let parsed = JSON.parse(userInfoStr);
         if (parsed.user) {
@@ -111,7 +111,7 @@ export default function ProfilePage() {
           parsed.username = editForm.username;
           parsed.avatarUrl = editForm.avatarUrl;
         }
-        localStorage.setItem('user_info', JSON.stringify(parsed));
+        localStorage.setItem('user', JSON.stringify(parsed));
       }
 
       // Đánh tín hiệu để TopNavigation tự reload lại Avatar ở góc phải
