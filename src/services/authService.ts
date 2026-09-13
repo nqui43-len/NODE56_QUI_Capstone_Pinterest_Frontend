@@ -1,4 +1,3 @@
-// src/services/authService.ts
 import axiosClient from './axiosClient';
 
 export const authService = {

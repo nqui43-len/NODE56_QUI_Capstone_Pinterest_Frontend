@@ -1,4 +1,3 @@
-// src/services/axiosClient.ts
 import axios from 'axios';
 
 const axiosClient = axios.create({
@@ -9,10 +8,8 @@ const axiosClient = axios.create({
   timeout: 10000,
 });
 
-// Thêm Interceptor để tự động gắn Token
 axiosClient.interceptors.request.use(
   (config) => {
-    // Chỉ chạy trên client-side
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('access_token');
       if (token) {
@@ -24,7 +21,6 @@ axiosClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor xử lý Response (Ép kiểu dữ liệu trả về)
 axiosClient.interceptors.response.use(
   (response) => response.data,
   (error) => {

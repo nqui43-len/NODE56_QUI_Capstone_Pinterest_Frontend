@@ -1,4 +1,3 @@
-// src/components/pin/MasonryGrid.tsx
 import React from "react";
 import styles from "../../styles/masonry.module.scss";
 import PinCard from "./PinCard";

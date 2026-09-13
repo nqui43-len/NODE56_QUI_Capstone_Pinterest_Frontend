@@ -1,4 +1,3 @@
-// src/app/profile/page.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -9,13 +8,11 @@ import { userService } from '@/services/userService';
 
 export default function ProfilePage() {
   const router = useRouter();
-  
   const [user, setUser] = useState<any>(null);
   const [createdPins, setCreatedPins] = useState<PinData[]>([]);
   const [savedPins, setSavedPins] = useState<PinData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'created' | 'saved'>('created');
-
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editForm, setEditForm] = useState({ username: '', avatarUrl: '' });
@@ -29,7 +26,6 @@ export default function ProfilePage() {
       return;
     }
 
-    // 1. Quét dữ liệu an toàn, xử lý cả trường hợp object lồng nhau
     let parsedUser: any = {};
     if (userInfoStr && userInfoStr !== 'undefined') {
       try {
@@ -40,7 +36,6 @@ export default function ProfilePage() {
       }
     }
 
-    // 2. Lấy ID từ Token để dự phòng
     let tokenUserId = null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -51,7 +46,6 @@ export default function ProfilePage() {
 
     const finalUserId = parsedUser.id || parsedUser.userId || tokenUserId;
     
-    // 3. Tìm tên thật qua nhiều lớp, nếu vẫn rỗng thì mặc định là tên từ Email hoặc 'Levid'
     const displayName = parsedUser.username || parsedUser.name || parsedUser.email?.split('@')[0] || 'Levid';
 
     setUser({
@@ -63,7 +57,7 @@ export default function ProfilePage() {
     
     if (finalUserId) {
       fetchUserPins(finalUserId);
-      fetchSavedPins(); // Gọi thêm hàm tải ảnh đã lưu
+      fetchSavedPins();
     } else {
       setIsLoading(false);
     }
@@ -96,11 +90,9 @@ export default function ProfilePage() {
     try {
       await userService.updateProfile(editForm);
       
-      // Cập nhật State hiện tại để giao diện đổi ngay lập tức
       const updatedUser = { ...user, username: editForm.username, avatarUrl: editForm.avatarUrl };
       setUser(updatedUser);
 
-      // Cập nhật localStorage để các trang khác (như Navbar) nhận diện được
       const userInfoStr = localStorage.getItem('user');
       if (userInfoStr) {
         let parsed = JSON.parse(userInfoStr);
@@ -114,7 +106,6 @@ export default function ProfilePage() {
         localStorage.setItem('user', JSON.stringify(parsed));
       }
 
-      // Đánh tín hiệu để TopNavigation tự reload lại Avatar ở góc phải
       window.dispatchEvent(new Event('storage'));
       setIsEditing(false);
       alert('Cập nhật hồ sơ thành công!');
@@ -185,7 +176,6 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
-      {/* Header Hồ sơ */}
       <div className="d-flex flex-column align-items-center text-center mb-5">
         <img 
           src={user.avatarUrl} 
@@ -210,7 +200,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Tabs Điều hướng */}
       <div className="d-flex justify-content-center gap-4 mb-4">
         <button 
           className={`btn fw-bold px-3 py-2 border-0 ${activeTab === 'created' ? 'border-bottom border-dark border-3 rounded-0 text-dark' : 'text-muted'}`}
@@ -228,7 +217,6 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      {/* Nội dung Tab */}
       <div className="mt-4">
         {activeTab === 'created' ? (
           createdPins.length > 0 ? (

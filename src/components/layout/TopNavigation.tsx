@@ -1,4 +1,3 @@
-// src/components/layout/TopNavigation.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -23,7 +22,6 @@ const TopNavigation: React.FC = () => {
         if (userInfoStr && userInfoStr !== 'undefined') {
           try {
             const rawParsed = JSON.parse(userInfoStr);
-            // Xử lý cả trường hợp object lồng nhau
             parsedUser = rawParsed.user ? rawParsed.user : rawParsed;
           } catch (error) {
             console.error('Lỗi parse JSON user:', error);
@@ -42,10 +40,8 @@ const TopNavigation: React.FC = () => {
       }
     };
 
-    // Kiểm tra lúc component mount
     checkAuth();
 
-    // Lắng nghe sự kiện để cập nhật Navbar khi đăng nhập từ nơi khác
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
   }, []);
@@ -74,18 +70,15 @@ const TopNavigation: React.FC = () => {
       <nav className="navbar navbar-expand-lg bg-white sticky-top p-2" style={{ zIndex: 1040 }}>
         <div className="container-fluid align-items-center gap-2 gap-md-3">
           
-          {/* Logo */}
           <Link href="/" className="navbar-brand text-danger p-0 m-0 d-flex align-items-center justify-content-center" style={{ width: '48px', height: '48px' }}>
             <i className="bi bi-pinterest fs-2"></i>
           </Link>
 
-          {/* Các nút điều hướng */}
           <div className="d-none d-md-flex gap-2">
             <Link href="/" className="btn btn-dark rounded-pill fw-bold px-3 py-2">Trang chủ</Link>
             <Link href="/create" className="btn btn-light rounded-pill fw-bold px-3 py-2">Tạo</Link>
           </div>
 
-          {/* Thanh tìm kiếm */}
           <div className="flex-grow-1 position-relative">
             <div className="input-group">
               <span className="input-group-text bg-light border-0 rounded-start-pill text-muted ps-3">
@@ -102,7 +95,6 @@ const TopNavigation: React.FC = () => {
             </div>
           </div>
 
-          {/* Cụm công cụ bên phải */}
           <div className="d-flex align-items-center gap-1 gap-md-2">
             {user ? (
               <>
@@ -113,7 +105,6 @@ const TopNavigation: React.FC = () => {
                   <i className="bi bi-chat-dots-fill text-muted fs-5"></i>
                 </button>
                 
-                {/* Menu thả xuống cho Avatar bằng React State */}
                 <div className="position-relative ms-1 ms-md-2">
                   <button 
                     className="btn btn-light rounded-circle p-0 overflow-hidden d-flex align-items-center justify-content-center border-0" 
@@ -153,14 +144,12 @@ const TopNavigation: React.FC = () => {
         </div>
       </nav>
 
-      {/* Modal Đăng nhập/Đăng ký */}
       {showAuthModal && (
         <AuthModal 
           isOpen={showAuthModal} 
           onClose={() => setShowAuthModal(false)} 
           onLoginSuccess={() => {
             setShowAuthModal(false);
-            // Kích hoạt event để Navbar tự động load lại Avatar mà không cần F5
             window.dispatchEvent(new Event('storage')); 
           }} 
         />

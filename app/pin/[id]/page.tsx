@@ -1,4 +1,3 @@
-// src/app/pin/[id]/page.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -9,17 +8,13 @@ export default function PinDetailPage() {
   const params = useParams();
   const router = useRouter();
   const pinId = Number(params.id);
-
   const [pin, setPin] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-
-  // State quản lý trạng thái chỉnh sửa
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ title: '', description: '' });
 
   useEffect(() => {
-    // 1. Đọc thông tin user để phân quyền
     const userInfoStr = localStorage.getItem('user_info');
     if (userInfoStr && userInfoStr !== 'undefined') {
       try {
@@ -29,7 +24,6 @@ export default function PinDetailPage() {
       }
     }
 
-    // 2. Tải dữ liệu ảnh từ backend
     const fetchPin = async () => {
       try {
         const data = await pinService.getPinById(pinId);
@@ -85,19 +79,13 @@ export default function PinDetailPage() {
 
   if (!pin) return null;
 
-  // So sánh ID để cấp quyền hiển thị nút Xóa/Sửa
-  if (!pin) return null;
-
-  // 1. Thử lấy ID từ user_info trước
   let currentUserId = user?.id || user?.userId;
 
-  // 2. Nếu không có, tự động giải mã JWT Token để lấy chính xác ID
   if (!currentUserId) {
     const token = localStorage.getItem('access_token');
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        // NestJS thường lưu ID trong 'sub' hoặc 'userId'
         currentUserId = payload.userId || payload.sub || payload.id; 
       } catch (error) {
         console.error('Không thể giải mã Token:', error);
@@ -105,7 +93,6 @@ export default function PinDetailPage() {
     }
   }
 
-  // 3. So sánh an toàn
   const isOwner = Boolean(
     currentUserId && 
     pin.authorId && 
@@ -114,14 +101,12 @@ export default function PinDetailPage() {
 
   return (
     <div className="container py-4 py-md-5" style={{ maxWidth: '1000px' }}>
-      {/* Nút Quay lại */}
       <button onClick={() => router.back()} className="btn btn-light rounded-circle mb-4 shadow-sm d-flex align-items-center justify-content-center" style={{ width: '48px', height: '48px' }}>
         <i className="bi bi-arrow-left fs-4"></i>
       </button>
 
       <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
         <div className="row g-0">
-          {/* Cột trái: Hình ảnh cỡ lớn */}
           <div className="col-md-6 bg-light d-flex align-items-center justify-content-center">
             <img 
               src={pin.imageUrl} 
@@ -131,12 +116,10 @@ export default function PinDetailPage() {
             />
           </div>
 
-          {/* Cột phải: Thông tin & Thao tác */}
           <div className="col-md-6 p-4 p-md-5 d-flex flex-column">
             
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div className="d-flex gap-2">
-                {/* Các nút công cụ chỉ hiện nếu là chủ sở hữu ảnh */}
                 {isOwner && !isEditing && (
                   <>
                     <button className="btn btn-light rounded-circle" onClick={() => setIsEditing(true)} title="Sửa bài">
@@ -158,7 +141,6 @@ export default function PinDetailPage() {
               </button>
             </div>
 
-            {/* Khu vực nội dung: Chuyển đổi linh hoạt giữa Xem và Sửa */}
             {isEditing ? (
               <div className="d-flex flex-column gap-3 mb-4">
                 <input 
@@ -188,7 +170,6 @@ export default function PinDetailPage() {
               </div>
             )}
 
-            {/* Box Tác giả luôn nằm ở đáy */}
             <div className="d-flex align-items-center gap-3 mt-auto pt-4">
               <img 
                 src={pin.author?.avatarUrl || 'https://ui-avatars.com/api/?name=User'} 

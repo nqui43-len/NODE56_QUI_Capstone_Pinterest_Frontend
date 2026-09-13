@@ -1,4 +1,3 @@
-// src/components/auth/AuthModal.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -33,7 +32,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSuccess }
       } else {
         await authService.register({ email, password, username });
         setError('Đăng ký thành công! Vui lòng đăng nhập.');
-        setIsLogin(true); // Tự động chuyển sang form đăng nhập
+        setIsLogin(true);
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại.');
@@ -43,7 +42,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSuccess }
   return (
     <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1050 }}>
       <div className="bg-white p-5 rounded-4 position-relative shadow-lg" style={{ width: '100%', maxWidth: '400px' }}>
-        {/* Nút đóng */}
         <button 
           onClick={onClose} 
           className="btn border-0 position-absolute top-0 end-0 m-3 fs-5"

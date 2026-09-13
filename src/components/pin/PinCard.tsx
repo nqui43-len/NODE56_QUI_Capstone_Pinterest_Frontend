@@ -1,4 +1,3 @@
-// src/components/pin/PinCard.tsx
 import React from 'react';
 import Link from 'next/link';
 import styles from '../../styles/masonry.module.scss';
@@ -12,18 +11,15 @@ interface PinCardProps {
 
 const PinCard: React.FC<PinCardProps> = ({ pin }) => {
   const router = useRouter();
-
-  // Hàm chuyển sang trang chi tiết
   const handleGoToDetail = () => {
     router.push(`/pin/${pin.id}`);
   };
 
-  // Hàm xử lý nút Lưu (tạm thời alert)
   const handleSavePin = async (e: React.MouseEvent) => {
     e.stopPropagation(); 
     try {
       const result: any = await pinService.toggleSavePin(pin.id);
-      alert(result.message); // Hiển thị thông báo "Đã lưu" hoặc "Đã bỏ lưu"
+      alert(result.message);
     } catch (error: any) {
       if (error.response?.status === 401) {
         alert('Vui lòng đăng nhập để lưu ảnh!');
@@ -45,19 +41,17 @@ const PinCard: React.FC<PinCardProps> = ({ pin }) => {
       >
         <img src={pin.imageUrl} alt={pin.title} className="w-100 h-auto object-fit-cover" />
         
-        {/* Lớp phủ Hover */}
         <div className="pin-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-between p-3">
           
           <div className="d-flex justify-content-end">
             <button 
               className="btn btn-danger rounded-pill fw-bold px-3 py-2 text-white"
-              onClick={handleSavePin} // Gắn sự kiện cho nút Lưu
+              onClick={handleSavePin}
             >
               Lưu
             </button>
           </div>
           
-          {/* Các nút bên dưới */}
           <div className="d-flex justify-content-between">
             <div className="d-flex gap-2">
               <button 
